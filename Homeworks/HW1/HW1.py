@@ -22,14 +22,13 @@ def main():
     """
     Main function to return whether an IP address is responding.
     """
-    #
+    # db connection referring back to DBConnector.py
     my_db = DBConnector.MyDB()
-    # list of IPs to ping
+    # list of 10 IPs to ping
     ips = ["127.0.0.1", "2.2.2.2", "7.7.7.7", "8.8.8.8", "192.168.10.10", "1.1.1.1", "9.9.9.9", "4.2.2.2", "192.168.0.1", "1.0.0.1"]
     # counters for total num of good and bad pings
     good_count = 0
     bad_count = 0
-    status = False
     # for loop for pinging list of IPs
     for ip in ips:
         current_time = (datetime.now())
