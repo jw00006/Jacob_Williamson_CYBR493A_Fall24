@@ -75,8 +75,9 @@ def authenticate_user(db, username, password):
     fetch_user_query = "SELECT username, password FROM Williamson_Jacob_Activity4;"
     results = db.query(fetch_user_query, ())
 
-    # iterate through records in the db
+    # iterate through rows in the db
     for column in results:
+        # saving encrypted usernames and passwords from their corresponding columns
         encrypted_username_str = column[0]
         encrypted_password_str = column[1]
 
@@ -95,12 +96,15 @@ def authenticate_user(db, username, password):
             print(f"decrypted password from DB: {decrypted_password}")
 
             # compare decrypted passwords with the provided password
+            # only checking if passwords are = if the username is correct
             if decrypted_password == password:
                 print("login success")
                 return True
             else:
+                #if usernames are = but password is incorrect
                 print("password mismatch")
         else:
+            # no matching username is found, return false
             print(f"username mismatch: {decrypted_username} != {username}")
 
     # no matching username and password
