@@ -76,9 +76,9 @@ def authenticate_user(db, username, password):
     results = db.query(fetch_user_query, ())
 
     # iterate through records in the db
-    for row in results:
-        encrypted_username_str = row[0]
-        encrypted_password_str = row[1]
+    for column in results:
+        encrypted_username_str = column[0]
+        encrypted_password_str = column[1]
 
         # change the encrypted username and password to bytes
         encrypted_username = encrypted_username_str.encode('utf-8')
@@ -90,7 +90,7 @@ def authenticate_user(db, username, password):
 
         # compare decrypted usernames with the provided username
         if decrypted_username == username:
-            # Decrypt the stored password
+            # decrypt the stored password
             decrypted_password = decrypt_password(encrypted_password)
             print(f"decrypted password from DB: {decrypted_password}")
 
