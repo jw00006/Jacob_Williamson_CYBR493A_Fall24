@@ -1,12 +1,12 @@
 # Jacob Williamson
 # CYBR493A
-# October 17, 2024
+# October 18, 2024
 # HW#2 Secured Login Application
 
 # The objective of this project is to build upon the logic of the
 # secured_login.py file by keeping the same method names but
-# utilizing a different encryption and decryption mechanism of
-# your choice.
+# utilizing a caesar cipher encryption that asks the user for
+# a username, password, and shift to rotate the characters by.
 
 import string
 import tkinter as tk
@@ -68,11 +68,11 @@ def create_users_table(db):
 
 def insert_user(db, username, password, shift):
     encrypted_username = encrypt_password(username, shift)
-    # Ensure the encrypted username is stored as a string
+    # ensure the encrypted username is stored as a string
     # encrypted_username_str = encrypted_username.decode('utf-8')
 
     encrypted_password = encrypt_password(password, shift)
-    # Ensure the encrypted password is stored as a string
+    # ensure the encrypted password is stored as a string
     # encrypted_password_str = encrypted_password.decode('utf-8')
 
     insert_user_query = "INSERT INTO Williamson_Jacob_HW2 (username, password, shift) VALUES (%s, %s, %s);"
@@ -96,16 +96,17 @@ def authenticate_user(db, username, password, shift):
         print(f"input Username: {username}")
         if decrypted_username == username:
             print("username matches.")
+            # check if shift matches shift stored in db
             if stored_shift == shift:
                 print("shift matches.")
-                # Decrypt the stored password if the username matches
+
                 decrypted_password = decrypt_password(stored_encrypted_password, stored_shift)
                 print(f"decrypted Password: {decrypted_password}")
                 print(f"input Password: {password}")
+                # Decrypt the stored password if the username matches
                 if decrypted_password == password:
                     print("password matches")
                     return True
-
     return False
 
 
@@ -114,7 +115,7 @@ def create_login_screen(db):
     def attempt_login():
         username = entry_username.get().upper()
         password = entry_password.get().upper()
-        # Need to convert shift from string to int
+        # need to convert shift from string to int
         shift = int(entry_shift.get())
         if authenticate_user(db, username, password, shift):
             messagebox.showinfo("Login Success", "Welcome!")
@@ -156,6 +157,7 @@ def main():
     # Insert sample users (comment this out after running once to avoid duplicate users)
     user_name = input("Give me a username to store in the database:").upper()
     password = input("Give me a password to store in the database:").upper()
+    # needed to save shift as an int instead of a string
     shift = int(input("Give me a key to shift both the username and password by:"))
     insert_user(db, user_name, password, shift)
 
