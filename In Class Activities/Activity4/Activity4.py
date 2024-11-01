@@ -12,15 +12,15 @@ import DBConnector
 
 # Function to generate and store the Fernet key
 def generate_key():
-    if not os.path.exists("../secret.key"):
+    if not os.path.exists("secret.key"):
         key = Fernet.generate_key()
-        with open("../secret.key", "wb") as key_file:
+        with open("secret.key", "wb") as key_file:
             key_file.write(key)
 
 
 # Function to load the Fernet key from a file
 def load_key():
-    return open("../secret.key", "rb").read()
+    return open("secret.key", "rb").read()
 
 # Function to encrypt username data
 def encrypt_username(username):
