@@ -1,5 +1,4 @@
 import Web_Scraping as wb
-import DBConnector as dbc
 
 
 """
@@ -12,10 +11,14 @@ def main():
     main_link = "https://bugs.launchpad.net/ubuntu/+bugs?field.searchtext=&field.status%3Alist=EXPIRED&field.status%3Alist=CONFIRMED&field.status%3Alist=TRIAGED&field.status%3Alist=INPROGRESS&field.status%3Alist=FIXCOMMITTED&field.status%3Alist=FIXRELEASED&field.importance%3Alist=UNKNOWN&field.importance%3Alist=UNDECIDED&field.importance%3Alist=CRITICAL&field.importance%3Alist=HIGH&field.importance%3Alist=MEDIUM&field.importance%3Alist=LOW&field.importance%3Alist=WISHLIST&field.information_type%3Alist=PUBLIC&field.information_type%3Alist=PUBLICSECURITY&field.information_type%3Alist=PRIVATESECURITY&field.information_type%3Alist=USERDATA&assignee_option=any&field.assignee=&field.bug_reporter=&field.bug_commenter=&field.subscriber=&field.structural_subscriber=&field.component-empty-marker=1&field.tag=&field.tags_combinator=ANY&field.status_upstream-empty-marker=1&field.has_cve.used=&field.omit_dupes.used=&field.omit_dupes=on&field.affects_me.used=&field.has_no_package.used=&field.has_patch.used=&field.has_branches.used=&field.has_branches=on&field.has_no_branches.used=&field.has_no_branches=on&field.has_blueprints.used=&field.has_blueprints=on&field.has_no_blueprints.used=&field.has_no_blueprints=on&search=Search&orderby=-importance&"
     links = generate_links(main_link)
     while True:
+        user_input = input(f'Which page would you like to view? (0 to {len(links) - 1}), or type "exit" to quit):')
+        if user_input == 'exit':
+            break
         try:
-            user_input = int(input(f'Which page would you like to view? (0 to {len(links) - 1}):'))
-            if 0 <= user_input <= len(links):
-                display_bugs_info(links[user_input])
+            # need to convert user input to int if input != exit
+            pageNum = int(user_input)
+            if 0 <= pageNum <= len(links):
+                display_bugs_info(links[pageNum])
             else:
                 print("Invalid input. Please choose a valid page number.")
         except ValueError:
@@ -41,11 +44,10 @@ def generate_links(start_link):
             break
         if not bugRows:
             break
-    # everytime you get a link to a new page, use list_of_links.append(new_page)
+        # everytime you get a link to a new page, use list_of_links.append(new_page)
         list_of_links.append(new_page)
         print(f"Fetching page {pageCount + 1}, URL: {new_page}")
         pageCount += 1
-    # blankUrl = "https://bugs.launchpad.net/ubuntu/+bugs?field.searchtext=&field.status%3Alist=EXPIRED&field.status%3Alist=CONFIRMED&field.status%3Alist=TRIAGED&field.status%3Alist=INPROGRESS&field.status%3Alist=FIXCOMMITTED&field.status%3Alist=FIXRELEASED&field.importance%3Alist=UNKNOWN&field.importance%3Alist=UNDECIDED&field.importance%3Alist=CRITICAL&field.importance%3Alist=HIGH&field.importance%3Alist=MEDIUM&field.importance%3Alist=LOW&field.importance%3Alist=WISHLIST&field.information_type%3Alist=PUBLIC&field.information_type%3Alist=PUBLICSECURITY&field.information_type%3Alist=PRIVATESECURITY&field.information_type%3Alist=USERDATA&assignee_option=any&field.assignee=&field.bug_reporter=&field.bug_commenter=&field.subscriber=&field.structural_subscriber=&field.component-empty-marker=1&field.tag=&field.tags_combinator=ANY&field.status_upstream-empty-marker=1&field.has_cve.used=&field.omit_dupes.used=&field.omit_dupes=on&field.affects_me.used=&field.has_no_package.used=&field.has_patch.used=&field.has_branches.used=&field.has_branches=on&field.has_no_branches.used=&field.has_no_branches=on&field.has_blueprints.used=&field.has_blueprints=on&field.has_no_blueprints.used=&field.has_no_blueprints=on&search=Search&orderby=-importance&"
 
     print(f"Generated {len(list_of_links)} links.")
 
