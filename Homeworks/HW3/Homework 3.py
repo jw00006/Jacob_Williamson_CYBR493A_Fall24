@@ -40,7 +40,7 @@ def generate_links(start_link):
 
         web_tree = wb.get_web_tree(new_page)
         bugRows = web_tree.xpath('//*[@class="buglisting-row"]')
-        if pageCount >= 5:  # Process only the first 10 pages for now
+        if pageCount >= 5:  # Process only the first 5 pages for now
             break
         if not bugRows:
             break
